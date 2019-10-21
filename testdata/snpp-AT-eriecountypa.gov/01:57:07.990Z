@@ -1,0 +1,73 @@
+--xYzZY
+Content-Disposition: form-data; name="headers"
+
+Received: by mx0027p1mdw1.sendgrid.net with SMTP id akAs3WgvBE Thu, 17 Oct 2019 01:36:29 +0000 (UTC)
+Received: from mail.eriecountygov.org (smtpout.eriecountygov.org [209.225.112.103]) by mx0027p1mdw1.sendgrid.net (Postfix) with ESMTPS id CC89820233E for <eriepa+32e11@alerts.simplesense.io>; Thu, 17 Oct 2019 01:36:29 +0000 (UTC)
+Received: from eriecountypa.gov (209.225.114.2) by EX2.ERIECOUNTYGOV.LOCAL (192.168.1.46) with Microsoft SMTP Server id 14.2.347.0; Wed, 16 Oct 2019 21:37:11 -0400
+Received: from localhost (localhost[127.0.0.1])    by eriecountypa.gov (PageGate) with SMTP id 1610192136290    for <eriepa+32e11@alerts.simplesense.io>; Thu, 17 Oct 2019 01:36:29 +0000
+Message-ID: <1610192136290@eriecountypa.gov>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: PageGate Server 8.1
+Date: Wed, 16 Oct 2019 21:36:29 +2000
+To: <eriepa+32e11@alerts.simplesense.io>
+From: <snpp@eriecountypa.gov>
+Subject: Call Time
+MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: 93eca23f-5588-497a-ac95-6d5c0b6da601
+
+--xYzZY
+Content-Disposition: form-data; name="dkim"
+
+none
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+<eriepa+32e11@alerts.simplesense.io>
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+<snpp@eriecountypa.gov>
+--xYzZY
+Content-Disposition: form-data; name="text"
+
+snpp:Call Time:10/16/2019 21:33:52 Call Type:OUTSIDE FIRE ENDG STRUCT -67
+Address:1245 W 8TH ST, ERIE CITY Common Name:
+Closest Intersection: JAPAN ST / WASHINGTON PL Additional Location Info:
+Nature of Call:neighbor reporting tree fire in the backyard
+Assigned Units: 2532E11
+Priority: High
+Quadrant: 25 Erie FD 3237 District: 25 Erie City ECI 3200 Beat: 25 Erie PD LWS
+CFS Number:9311
+Primary Incident: 2019-00004460 (25320)
+Radio Channel:
+Narrative: CC Text: Outside Fire
+Caller Statement: tree in backyard on fire
+Dispatch Code: 67B01   (SMALL OUTSIDE fire)
+Suffix:..
+
+--xYzZY
+Content-Disposition: form-data; name="sender_ip"
+
+209.225.112.103
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["eriepa+32e11@alerts.simplesense.io"],"from":"snpp@eriecountypa.gov"}
+--xYzZY
+Content-Disposition: form-data; name="attachments"
+
+0
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+Call Time
+--xYzZY
+Content-Disposition: form-data; name="charsets"
+
+{"to":"UTF-8","subject":"UTF-8","from":"UTF-8","text":"iso-8859-1"}
+--xYzZY
+Content-Disposition: form-data; name="SPF"
+
+pass
+--xYzZY--

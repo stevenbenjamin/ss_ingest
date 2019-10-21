@@ -1,0 +1,92 @@
+--xYzZY
+Content-Disposition: form-data; name="headers"
+
+Received: by mx0031p1mdw1.sendgrid.net with SMTP id QsuS3gjtZv Thu, 17 Oct 2019 15:13:58 +0000 (UTC)
+Received: from 14pmail.ess.barracuda.com (14pmail.ess.barracuda.com [209.222.82.68]) by mx0031p1mdw1.sendgrid.net (Postfix) with ESMTPS id 45F997D4735 for <eriepaemergycare+102@alerts.simplesense.io>; Thu, 17 Oct 2019 15:13:58 +0000 (UTC)
+Received: from NAM05-BY2-obe.outbound.protection.outlook.com (mail-by2nam05lp2056.outbound.protection.outlook.com [104.47.50.56]) by mx1.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 17 Oct 2019 15:13:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none; b=IdmtOowXVvEHkW6KtxhALatCf7dyapNfJWPeXn0UTxJ09wM/2tgrkNWZBZNipeI0B3gsYoW2N7gBJEK7fwuP2Ly4/IZww7kauVwPHTjkmd2bJw49gjR6AVWmOP23PnkKi3nndXwO204ECF3t68KKM981zrJEee64QkXm2PGsYs/I7HcEfvjvdPtpz0EUvp58/DFmlV1alV91Oq6LVcLmqdmiG4kMIlLNjPvamucxt+QCw8qpiQOwiJ3orR5LFC2BmfQG9E5mrYkDrIR+L980WUx7dF9rywXJ4u79jDIAS2USTZMdDEs6l7usK2ith+6Or5UtKw2FNObe2mIW+XlmMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck; bh=4M/b9Rm8drSUhmyb4H0th0cgt7Cps2JBgx9KuI+OepE=; b=NyUk83nIRX4DTINX2d6mByo3yqT5sVbVvZgz9tEk0Dy6xzqBs6rtzdt15qcLG+vbMpdcGYgCExYZqod2dpEWOABENPfoeqjuSksGqbgnjTqVPCdUVR4fol9AySSRmGfWzWR0lwxiVEN6DxaygXMSfT8Uhh/whPmhPG0cTA79yd68mtJqQDIzAW6fda0zqWq2f+zpD6nK2mZvIb73uoJipWTE+DkesasqGkSFDbHTaqUxY1U9TDE1vnj4FzpLDppPhl0oC6ipD1EIBt4K0Kd76+HIurug5j5/cIJyiOc/sP6NUv6Xx/WG4T1iMelbmqazQR06IJc3PXls5Fn4wBLXWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip is 66.211.252.2) smtp.rcpttodomain=alerts.simplesense.io smtp.mailfrom=emergycare.org; dmarc=none action=none header.from=emergycare.org; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emergycare.onmicrosoft.com; s=selector2-emergycare-onmicrosoft-com; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck; bh=4M/b9Rm8drSUhmyb4H0th0cgt7Cps2JBgx9KuI+OepE=; b=jPdwuaxXriXeZMgZN7rSvlOTKn0stmTh5hX7y2gBIOF/2j3Vcel54+Y02D/OwgSYBmwXfO+X962bisZbQ0kLFaUQIEcPmhBDH4a/W/oWMDF5fexh4/rVnInOE8W0pcOmZFWHGUushaQc7pgazOS9I96BOl/ca6WS6FBKXE82Egs=
+Received: from SN2PR01CA0047.prod.exchangelabs.com (2603:10b6:800::15) by DM6PR01MB5771.prod.exchangelabs.com (2603:10b6:5:14f::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2347.21; Thu, 17 Oct 2019 15:13:55 +0000
+Received: from BN3NAM04FT036.eop-NAM04.prod.protection.outlook.com (2a01:111:f400:7e4e::201) by SN2PR01CA0047.outlook.office365.com (2603:10b6:800::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2347.16 via Frontend Transport; Thu, 17 Oct 2019 15:13:55 +0000
+Authentication-Results: spf=softfail (sender IP is 66.211.252.2) smtp.mailfrom=emergycare.org; alerts.simplesense.io; dkim=none (message not signed) header.d=none;alerts.simplesense.io; dmarc=none action=none header.from=emergycare.org;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning emergycare.org discourages use of 66.211.252.2 as permitted sender)
+Received: from CADUTILITIES (66.211.252.2) by BN3NAM04FT036.mail.protection.outlook.com (10.152.93.184) with Microsoft SMTP Server id 15.20.2367.16 via Frontend Transport; Thu, 17 Oct 2019 15:13:55 +0000
+Date: Thu, 17 Oct 19 11:13:54 Eastern Daylight Time
+From: EC.COMM@emergycare.org
+To: <eriepaemergycare+102@alerts.simplesense.io>
+Subject: - part 1 of 1
+X-Mailer: <WC Mail>
+Message-ID: <25bd5056-2c4c-42dc-8548-e3ef66203237@BN3NAM04FT036.eop-NAM04.prod.protection.outlook.com>
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:66.211.252.2;IPV:CAL;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10019020)(396003)(376002)(136003)(39850400004)(346002)(199004)(189003)(316002)(9686003)(50466002)(50226002)(6496006)(26826003)(478600001)(36736006)(51416003)(2906002)(16586007)(6486002)(25786009)(356004)(26005)(70206006)(70586007)(26956010)(76130400001)(31696002)(48376002)(558084003)(186003)(2351001)(81166006)(74316002)(5660300002)(81156014)(47776003)(305945005)(476003)(8936002)(126002)(956004)(336012)(8676002)(31686004)(486006)(3900100004);DIR:OUT;SFP:1102;SCL:1;SRVR:DM6PR01MB5771;H:CADUTILITIES;FPR:;SPF:SoftFail;LANG:en;PTR:gateway.emergycare.org;A:1;MX:1;
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bc600023-551a-4164-d17e-08d75314a079
+X-MS-TrafficTypeDiagnostic: DM6PR01MB5771:
+X-Microsoft-Antispam-PRVS: <DM6PR01MB5771E7B00E5CF4B4FF44C713D16D0@DM6PR01MB5771.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
+X-Forefront-PRVS: 01930B2BA8
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cb4SrJFhAhH6+PfTYAB9cVtvqX4PlzR6RVMeeBN7ggu5lc4cUHxSmdoW3eLaj9sgifG8BCEX0e/J/ZiK4q5+ZVd9WLgUGVhRQuP7OzcSJhtdnbGdtXPbU4i5LGdivHcGqk8boISq+yBWHVY81nRJQYN1CrZMJ/83lZzc1/ttwsDMeiVxGIF9q8MLZYaevndqSokdJek7k+crkLJeD4srpq7e4pWnC43hf1EcwcV7sr+0CbJc5zINpdU4aamvQsoCMKq8M/ZMFFnvHaTWxDPG7h0WocTZnjf8RyGAEoA3947kofio3BUsK63OPYjvxXOlqw4K7dpxtXpUkqUlEislfhww7gkhYeCJnFw+kt17iBOXZ6e/BiX3pcOEQYqGwF+F6BEUDqg1Ltf3aXVkHEIMK02HUt/Zq3W/PD+jfBk8hP4=
+X-OriginatorOrg: emergycare.org
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2019 15:13:55.1652 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc600023-551a-4164-d17e-08d75314a079
+X-MS-Exchange-CrossTenant-Id: c127b2d1-07bc-4219-aabd-6ba81c1df151
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=c127b2d1-07bc-4219-aabd-6ba81c1df151;Ip=[66.211.252.2];Helo=[CADUTILITIES]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5771
+X-BESS-ID: 1571325237-893001-20594-23789-1
+X-BESS-VER: 2019.3_20191016.2213
+X-BESS-Apparent-Source-IP: 104.47.50.56
+X-BESS-Outbound-Spam-Score: 2.08
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.219521 [from  cloudscan17-173.us-east-2b.ess.aws.cudaops.com] Rule breakdown below pts rule name              description ---- ---------------------- -------------------------------- 0.01 INVALID_DATE           META: Invalid Date: header (not RFC 2822)  0.30 TVD_RCVD_SINGLE        HEADER:   0.00 BSF_BESS_OUTBOUND      META: BESS Outbound  0.01 DATE_IN_PAST_03_06     HEADER: Date: is 3 to 6 hours before Received: date  0.00 NO_REAL_NAME           HEADER: From: does not include a real name  1.76 INVALID_DATE_2         META: Invalid Date: header (not RFC 2822) 
+X-BESS-Outbound-Spam-Status: SCORE=2.08 using account:ESS46947 scores of KILL_LEVEL=7.0 tests=INVALID_DATE, TVD_RCVD_SINGLE, BSF_BESS_OUTBOUND, DATE_IN_PAST_03_06, NO_REAL_NAME, INVALID_DATE_2
+X-BESS-BRTS-Status:1
+
+--xYzZY
+Content-Disposition: form-data; name="dkim"
+
+{@emergycare.onmicrosoft.com : pass}
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+<eriepaemergycare+102@alerts.simplesense.io>
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+EC.COMM@emergycare.org
+--xYzZY
+Content-Disposition: form-data; name="text"
+
+RC:Run#61749/CALL:10:06/DISP:10:07/ENR:10:08/ATS:10:21/TRA:10:30/ATD:10:54/PAR:11:13/10:30/ODOM ENR:0.0/PUZIP:16428
+
+
+--xYzZY
+Content-Disposition: form-data; name="sender_ip"
+
+209.222.82.68
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["eriepaemergycare+102@alerts.simplesense.io"],"from":"gthomas@emergycare.org"}
+--xYzZY
+Content-Disposition: form-data; name="attachments"
+
+0
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+- part 1 of 1
+--xYzZY
+Content-Disposition: form-data; name="charsets"
+
+{"to":"UTF-8","subject":"UTF-8","from":"UTF-8","text":"iso-8859-1"}
+--xYzZY
+Content-Disposition: form-data; name="SPF"
+
+pass
+--xYzZY--

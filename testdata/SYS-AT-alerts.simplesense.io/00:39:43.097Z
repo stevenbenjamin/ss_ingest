@@ -1,0 +1,73 @@
+--xYzZY
+Content-Disposition: form-data; name="headers"
+
+Received: by mx0053p1mdw1.sendgrid.net with SMTP id Xdw6gpRwBt Wed, 25 Sep 2019 00:39:42 +0000 (UTC)
+Received: from o1.ptr8335.simplesense.io (o1.ptr8335.simplesense.io [149.72.162.23]) by mx0053p1mdw1.sendgrid.net (Postfix) with ESMTPS id 626291C1FC0 for <eriepa+test@alerts.simplesense.io>; Wed, 25 Sep 2019 00:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=simplesense.io;  h=from:mime-version:to:content-type:subject; s=s1;  bh=D0Kg2NP2e5a7PKRm0F2kRHdRFR0=; b=HTfkbTNHulECIdyGR61RSjz02gEby H9w5zE5nXT71HAi/IigEDXr5g9SKPJ8lI3df8t2weCWwpDLwPtC+UzDEn1klSfZu 6HAs+q77hXD9TIXvSGh8s15sd1sV7N+Kzg9SUn7D8MTgLz+A4rYpGRqkfIg3fwHa 2jMkxb817dJSz4=
+Received: by filter0048p3iad2.sendgrid.net with SMTP id filter0048p3iad2-15111-5D8AB74D-1 2019-09-25 00:39:41.007136904 +0000 UTC m=+101466.348566787
+Received: from ODk0MTkyOQ (ec2-54-197-221-255.compute-1.amazonaws.com [54.197.221.255]) by ismtpd0086p1iad2.sendgrid.net (SG) with HTTP id I7eqgYAWS9eBhAUWHXqi3A Wed, 25 Sep 2019 00:39:40.939 +0000 (UTC)
+Date: Wed, 25 Sep 2019 00:39:41 +0000 (UTC)
+From: SYS@alerts.simplesense.io
+Mime-Version: 1.0
+To: eriepa+test@alerts.simplesense.io
+Message-ID: <I7eqgYAWS9eBhAUWHXqi3A@ismtpd0086p1iad2.sendgrid.net>
+Content-type: multipart/alternative; boundary="----------=_1569371981-10917-396"
+Subject: SYSTEST:INFOF >TEST9
+X-SG-EID: ZdFtBtIP6Wjb/0pKve4gSgsMcdl2JBaKTIQrHav+RIdSFtG25JPYMUlQoJQYXVh6iMYqB3laGsrSXs d8qOk5S8KLVqnRWy1PLKuKFsZejazdhTup/rVMWXfU1KIK5ZmRbLmbHlEFdu2E/70qlsjGKuzsd5nV eKQ/SQFYya8Xy56dZgtZ2QBKSSyUVzmm1otIqqu8VXtkTI9QJQhDW1Cyilf+tu9Z7t1WynZ5i7MO0p s=
+
+--xYzZY
+Content-Disposition: form-data; name="attachments"
+
+0
+--xYzZY
+Content-Disposition: form-data; name="dkim"
+
+{@simplesense.io : pass}
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+SYSTEST:INFOF >TEST9
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+eriepa+test@alerts.simplesense.io
+--xYzZY
+Content-Disposition: form-data; name="html"
+
+<html><body>
+<p>SYSTEST:INFOF &gt;TEST9 2401 East Ave XS:</p>
+<p>Map:13464 Grids:, Cad: 2019-0000019104</p>
+
+<img src="https://u8941929.ct.sendgrid.net/wf/open?upn=tcsQNVsoPbdeSrQgK9XkMpSslCq26zjCyIgwa-2FKjYmvfxTOzedAeZpEBYOR6IxQjgqXhA7GXRceLBD-2Fc0QTVkz2Wx6zMJjr0G0OuLsRwbOFAbV-2BT230kZJPpi4Brnn8lopvn2V4mbGuCjvKBU1nVGR-2Fvfl1b-2BrUsQgdvD-2Bf0AxrYKj4WkZR8TfdT2QwPf-2FeHFhyaKxXdNYETjGyYNHCH76gQ-2BPImCC2li-2BPlYG-2B-2F-2BvNfxwXJvv6p0jnHQeKGqEtC" alt="" width="1" height="1" border="0" style="height:1px !important;width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;"/>
+</body></html>
+
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+SYS@alerts.simplesense.io
+--xYzZY
+Content-Disposition: form-data; name="text"
+
+SYSTEST:INFOF >TEST9
+2401 East Ave
+XS: 
+
+Map:13464 Grids:,
+Cad: 2019-0000019104
+--xYzZY
+Content-Disposition: form-data; name="sender_ip"
+
+149.72.162.23
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["eriepa+test@alerts.simplesense.io"],"from":"bounces+8941929-542a-eriepa+test=alerts.simplesense.io@alerts.simplesense.io"}
+--xYzZY
+Content-Disposition: form-data; name="charsets"
+
+{"to":"UTF-8","html":"UTF-8","subject":"UTF-8","from":"UTF-8","text":"UTF-8"}
+--xYzZY
+Content-Disposition: form-data; name="SPF"
+
+pass
+--xYzZY--

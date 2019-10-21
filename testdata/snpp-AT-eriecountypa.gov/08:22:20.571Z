@@ -1,0 +1,73 @@
+--xYzZY
+Content-Disposition: form-data; name="headers"
+
+Received: by mx0052p1mdw1.sendgrid.net with SMTP id DcvlCCc9k5 Thu, 17 Oct 2019 07:48:03 +0000 (UTC)
+Received: from mail.eriecountygov.org (smtpout.eriecountygov.org [209.225.112.103]) by mx0052p1mdw1.sendgrid.net (Postfix) with ESMTPS id 6F78C5C262F for <eriepa+32e11@alerts.simplesense.io>; Thu, 17 Oct 2019 07:48:03 +0000 (UTC)
+Received: from eriecountypa.gov (209.225.114.2) by EX2.ERIECOUNTYGOV.LOCAL (192.168.1.46) with Microsoft SMTP Server id 14.2.347.0; Thu, 17 Oct 2019 03:48:45 -0400
+Received: from localhost (localhost[127.0.0.1])    by eriecountypa.gov (PageGate) with SMTP id 1710190348020    for <eriepa+32e11@alerts.simplesense.io>; Thu, 17 Oct 2019 07:48:02 +0000
+Message-ID: <1710190348020@eriecountypa.gov>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: PageGate Server 8.1
+Date: Thu, 17 Oct 2019 03:48:02 -0400
+To: <eriepa+32e11@alerts.simplesense.io>
+From: <snpp@eriecountypa.gov>
+Subject: Call Time
+MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: 93eca23f-5588-497a-ac95-6d5c0b6da601
+
+--xYzZY
+Content-Disposition: form-data; name="dkim"
+
+none
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+<eriepa+32e11@alerts.simplesense.io>
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+<snpp@eriecountypa.gov>
+--xYzZY
+Content-Disposition: form-data; name="text"
+
+snpp:Call Time:10/17/2019 03:45:13 Call Type:SERVICE CALL ALPHA -53
+Address:1813 W 13TH ST, ERIE CITY Common Name:
+Closest Intersection: DEAD END / KAHKWA AVE Additional Location Info:
+Nature of Call:TREE DOWN, CRUSHED A CAR
+Assigned Units: 2532E11
+Priority: High
+Quadrant: 25 Erie FD 3231 District: 25 Erie City ECI 3200 Beat: 25 Erie PD LWS
+CFS Number:9562
+Primary Incident:
+Radio Channel:
+Narrative: CC Text: Downed trees and objects
+Caller Statement: TREE DOWN
+Dispatch Code: 53O02   (Downed trees and objects)
+Resp..
+
+--xYzZY
+Content-Disposition: form-data; name="sender_ip"
+
+209.225.112.103
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["eriepa+32e11@alerts.simplesense.io"],"from":"snpp@eriecountypa.gov"}
+--xYzZY
+Content-Disposition: form-data; name="attachments"
+
+0
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+Call Time
+--xYzZY
+Content-Disposition: form-data; name="charsets"
+
+{"to":"UTF-8","subject":"UTF-8","from":"UTF-8","text":"iso-8859-1"}
+--xYzZY
+Content-Disposition: form-data; name="SPF"
+
+pass
+--xYzZY--

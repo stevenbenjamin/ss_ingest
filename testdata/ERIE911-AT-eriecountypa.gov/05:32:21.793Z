@@ -1,0 +1,65 @@
+--xYzZY
+Content-Disposition: form-data; name="headers"
+
+Received: by mx0055p1mdw1.sendgrid.net with SMTP id dtbbWrxSCk Sat, 14 Sep 2019 05:32:09 +0000 (UTC)
+Received: from mail.eriecountygov.org (smtpout.eriecountygov.org [209.225.112.103]) by mx0055p1mdw1.sendgrid.net (Postfix) with ESMTPS id 27B384A4220 for <eriepa+eci@alerts.simplesense.io>; Sat, 14 Sep 2019 05:32:09 +0000 (UTC)
+Received: from eriecountypa.gov (209.225.114.2) by EX2.ERIECOUNTYGOV.LOCAL (192.168.1.46) with Microsoft SMTP Server id 14.2.347.0; Sat, 14 Sep 2019 01:32:43 -0400
+Received: from localhost (localhost[127.0.0.1])    by eriecountypa.gov (PageGate) with SMTP id 1409190132080    for <eriepa+eci@alerts.simplesense.io>; Sat, 14 Sep 2019 05:32:08 +0000
+Message-ID: <1409190132080@eriecountypa.gov>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: PageGate Server 8.1
+Date: Sat, 14 Sep 2019 01:32:08 -0400
+To: <eriepa+eci@alerts.simplesense.io>
+From: <ERIE911@eriecountypa.gov>
+Subject: 23C1I >OD/POISON-NOT ALERT,INTENTIONA
+MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: 93eca23f-5588-497a-ac95-6d5c0b6da601
+
+--xYzZY
+Content-Disposition: form-data; name="attachments"
+
+0
+--xYzZY
+Content-Disposition: form-data; name="dkim"
+
+none
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+23C1I >OD/POISON-NOT ALERT,INTENTIONA
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+<eriepa+eci@alerts.simplesense.io>
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+<ERIE911@eriecountypa.gov>
+--xYzZY
+Content-Disposition: form-data; name="text"
+
+ERIE911:23C1I >OD/POISON-NOT ALERT,INTENTIONA
+133 W 18TH ST
+XS: PEACH ST
+ERIE CITY
+Map:12536 Grids:,
+Cad: 2019-0000129330
+
+--xYzZY
+Content-Disposition: form-data; name="sender_ip"
+
+209.225.112.103
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["eriepa+eci@alerts.simplesense.io"],"from":"erie911@eriecountypa.gov"}
+--xYzZY
+Content-Disposition: form-data; name="charsets"
+
+{"to":"UTF-8","subject":"UTF-8","from":"UTF-8","text":"iso-8859-1"}
+--xYzZY
+Content-Disposition: form-data; name="SPF"
+
+pass
+--xYzZY--

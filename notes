@@ -1,0 +1,377 @@
+
+		var cadSplit = text.split("Cad:");
+
+		var cad = cadSplit[1];
+
+		console.log("type: ", type);
+
+		//split text at subject and XS - address is in the middle
+		var arr = text.split(subject);
+
+		var arr2 = arr[1].split("XS");
+		var addressShort = arr2[0];
+		var address = addressShort + ", Erie, PA";
+		var webURL ="";
+		var smartAddress = {
+			a: addressShort
+		}
+		try {
+			await functions.verifyAddress(address, smartAddress);
+		} catch (err) {
+			console.log(err);
+		}
+		console.log("Address validator:", smartAddress.a);
+		// console.log("address:", addressShort.toLowerCase().trim());
+		console.log("Find if address is in system");
+
+		await Address.find({address: smartAddress.a }, function(err, add){
+		// await Address.find({address: "607 e 26th st"}, function(err, add){
+
+			console.log("Inside search function");
+			if(err){
+				console.log("ERROR!");
+				console.log(err);
+			} else {
+				console.log("Found Add:", add[0]);
+				if(add && add.length){
+					webURL = add[0].webURL;
+				}
+				c.onsole.log("Found this:", webURL);
+				return 1;
+			}
+			return -1;
+		});
+
+		console.log("Completed address search");
+
+		geocoder.geocode(address)
+			.then(function(loc) {
+				var index = 0;
+				var bestResult = 0;
+				var bestIndex = 0;
+				for(var result in loc) {
+					// console.log(result);
+					// console.log(loc[result]);
+					if(loc[result].extra.confidence > bestResult){
+						bestResult = loc[result].extra.confidence;
+						bestIndex = index;
+					}
+					index++;
+				}
+				console.log("Best Result: ");
+				console.log(loc[bestIndex].latitude);
+				console.log(loc[bestIndex].longitude);
+
+				var latitude = parseFloat(loc[bestIndex].latitude);
+				var longitude = parseFloat(loc[bestIndex].longitude);
+				var range = parseFloat(loc[bestIndex].extra.confidenceKM)
+
+
+				User.find(
+				{
+					location: {
+						$geoIntersects: {
+							$geometry: {
+								type: "Point",
+								coordinates: [longitude, latitude]
+							}
+						}
+					}
+				}).exec(
+				function(err, users){
+					if(err){
+						console.log("Error Finding Location");
+						console.log(err);
+					   	res.redirect("/");
+
+					}
+					var newEmail = {
+						email: text,
+						type: type,
+						sender: from,
+						address: address,
+						longitude: longitude,
+						latitude: latitude,
+						user: null,
+						alertCode: code,
+						sent_at: date[0],
+						received_at: receivedTime,
+						responded_at: respondedTime,
+						rawEmail: JSON.stringify(req.body),
+						sendMethod: "",
+						cadNum: cad,
+						dispatchUnit: unitDescription,
+						url: webURL
+											}
+
+					if(users.length){
+						console.log("Found Location");
+						// console.log(users);
+						var respondedTime;
+						Email.find({cadNum: cad}).countDocuments().exec(async function(err, cadNum){
+
+							await functions.asyncForEach(users, async function(user){
+
+							var messageBody = "#" + cad  + "<br>" +
+								sentTime + "<br><br>" +
+								"Location:<br>" +
+								user.locationName+ "<br><br>" +
+								"Dispatched:<br>" +
+								unitDescription + "<br><br>" +
+								"Call Type:<br>" +
+								type + "<br><br>" +
+								"Address:<br>" +
+                addressShort + "<br><br><br>" +
+                "Was this alert helpful? " +
+                "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfvq2GmZ7dLcNP-8aST8UtGsU5y-JanwIFFtyhLHda5fG-vJA/viewform?usp=pp_url&entry.72625944="+cad+"&entry.966501127="+addressShort+"&entry.2076153227=Yes\">Yes</a> | " +
+                "<a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfvq2GmZ7dLcNP-8aST8UtGsU5y-JanwIFFtyhLHda5fG-vJA/viewform?usp=pp_url&entry.72625944="+cad+"&entry.966501127="+addressShort+"&entry.2076153227=No\">No</a><br>";
+
+							var messageBodyPlain = "#" + cad  + "\n" +
+								sentTime.split("\n").join(" ") + "\n\n" +
+								"Location Name\n" +
+								user.locationName + "\n\n" +
+								"Dispatched:\n" +
+								unitDescription.split("\n").join(" ") + "\n\n" +
+								"Call Type:\n" +
+								type.split("\n").join(" ") + "\n\n" +
+								"Address:\n" +
+								addressShort.split("\n").join(" ").trim();
+								newEmail.user = user;
+
+
+
+
+
+								var updateOrNew = "NEW";
+
+								if (cadNum > 0){
+									updateOrNew = "UPDATE";
+								}
+									if(user.preference){
+										await functions.sendText(updateOrNew, messageBodyPlain, user.phone, newEmail);
+										console.log("Sent Text " + user.name + " based on preference");
+
+
+									} else if (user.api){
+										await functions.APIcall(updateOrNew + " " + messageBodyPlain, user.apiURL, newEmail);
+
+										console.log("Sent API CAll");
+
+									}else {
+
+										await functions.sendEmail(updateOrNew, user.email, cad, messageBody, newEmail);
+										console.log("sent Email to " + user.name + " based on preference");
+
+									}
+
+								console.log("Should have sent and stored one email");
+								return;
+						});
+
+						});
+					} else {
+						newEmail.sendMethod = "No Alert Sent";
+					  	functions.storeEmail(newEmail);
+					}
+				});
+			})
+			.catch(function(err) {
+				console.log(err);
+			});
+	}
+})
+
+	res.send(200);
+
+});
+
+
+////////////////////////////////////////
+//TEST ROUTES
+///////////////////////////////////////
+routes.post("/test",  functions.isLoggedIn, function(req, res){
+		const msg = {
+		  to: 'eriepa+test@alerts.simplesense.io',
+		  from: 'SYS@alerts.simplesense.io',
+		  subject:'SYSTEST:INFOF >' + req.body.type,
+		  text: 'SYSTEST:INFOF >' + req.body.type + '\n'+ req.body.address + '\nXS: '+ req.body.cross + '\n'+req.body.cross2 + '\nMap:13464 Grids:,\nCad: 2019-0000019104',
+			};
+	sgMail.send(msg);
+	res.redirect("/emails/page/1");
+});
+routes.get("/test", functions.isLoggedIn,  function(req, res){
+
+	res.render("test");
+
+});
+
+
+///////////////////////////////////////////////
+//ANALYTICS AND BACK UP
+///////////////////////////////////////////////
+
+routes.get("/analytics", functions.isLoggedIn, function(req, res){
+
+	Email.find( {sender: {$ne: "SYS@alerts.simplesense.io" }}).countDocuments().exec(function(err, dispatches){
+		if(err){
+			console.log(err);
+			res.redirect("/");
+		}
+		User.find( {testLocation: {$ne: true}} ).countDocuments().exec(function(err, fences){
+			if(err){
+				console.log(err);
+				res.redirect("/");
+			}
+			Email.find( { $and :[{sender: {$ne:"SYS@alerts.simplesense.io" }}, {sendMethod: {$ne: "No Alert Sent"}}]}).countDocuments().exec(function(err, alerts){
+				if(err){
+					console.log(err);
+					res.redirect("/");
+				}
+				res.render("analytics", {
+					dispatches: dispatches,
+					fences: fences,
+					alerts: alerts
+				});
+
+			});
+		});
+	});
+
+});
+
+
+
+//CSV EXPORTING of most columns
+routes.get('/exporttocsv', functions.isLoggedIn, function(req, res) {
+    var filename   = "emails.csv";
+    var dataArray;
+    Email.find({}).sort({'_id': -1}).limit(10000).populate("user").lean().exec({}, function(err, emails) {
+        if (err) res.send(err);
+
+        var index = 0;
+        var formattedEmails = [];
+
+        emails.forEach(function(email, index){
+        	var temp = {
+        		email: email.email,
+				    type: email.type,
+				    sender: email.sender,
+            address: email.address,
+            location: email.user != undefined ? email.user.locationName : "No Alert Sent",
+            longitude: email.longitude,
+            latitude: email.latitude,
+            user: email.user != undefined ? email.user.name: "N/A",
+            received_at: email.received_at,
+            responded_at: email.responded_at,
+            sendMethod: email.sendMethod
+          }
+          formattedEmails.push(temp);
+
+        });
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+        res.csv(formattedEmails, true);
+    });
+ });
+
+
+//Pure back up of every single column and dispatch
+routes.get('/backupEmails', functions.isLoggedIn, function(req, res) {
+    var filename   = "emails.csv";
+    var dataArray;
+    Email.find({}).sort({'_id': -1}).populate("user").lean().exec({}, function(err, emails) {
+        if (err) res.send(err);
+
+        var index = 0;
+        var formattedEmails = [];
+
+        emails.forEach(function(email, index){
+        	formattedEmails.push(email);
+
+        });
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader("Content-Disposition", 'attachment; filename='+filename);
+        res.csv(formattedEmails, true);
+    });
+ });
+
+
+
+////////////////////////////////
+//Login paths
+/////////////////////////////////
+
+routes.get("/signIn", function(req, res){
+	res.render("signIn");
+});
+
+routes.post("/signIn", functions.passport.authenticate("local", {
+    successRedirect: "/users",
+    failureRedirect: "/signIn"
+}), function(req, res) {
+    console.log(req.user);
+});
+
+routes.get("/signOut", function(req, res) {
+    req.logout();
+    res.redirect("/");
+});
+
+
+routes.get("/signUp", functions.isLoggedIn, function(req, res) {
+    res.render("signUp");
+});
+
+
+routes.post("/signUp", function(req, res) {
+
+var userName = req.body.userName;
+
+Admin.register(new Admin({ username: req.body.userName}), req.body.password, function(err, admin) {
+    if (err) {
+        console.log(err);
+        return res.redirect('signUp');
+    } else {
+        console.log(admin);
+        functions.passport.authenticate("local");
+    }
+    res.redirect("/signIn");
+    });
+});
+
+
+/////////////////////////////////////////////////
+//Firefighter View
+/////////////////////////////////////////////////
+
+routes.get("/HDJieSHFD3GpcqkiqtzE3mVILj4QfgsV", function(req, res){
+
+	Email.find({"user" : mongoose.Types.ObjectId("5c7ff5599302371c10d3b481")}).sort({"cadNum": -1}).populate("user").limit(25).exec(function(err, emails){
+		if(err){
+			res.redirect("/");
+		} else {
+			res.render("emails/fireFighters", {emails: emails, moment: functions.moment});
+		}
+	});
+})
+
+
+
+
+
+
+
+
+
+
+routes.use('/centers', centers);
+routes.use('/addresses', addresses);
+routes.use('/emails', emails);
+routes.use('/users', users);
+
+
+module.exports = routes;
