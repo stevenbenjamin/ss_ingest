@@ -1,6 +1,7 @@
 package ss_ingest
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -33,4 +34,17 @@ func TestParseSubject(t *testing.T) {
 	assert(t, m["type"] == "POST" && m["code"] == "PRE", "OK")
 	m = parseSubject("POST")
 	assert(t, m["type"] == "POST" && m["code"] == "", "OK")
+}
+
+func TestParseLocation(t *testing.T) {
+
+	var loc = parseLocation(`
+ ERIE911:53O2  >CITIZEN ASSIST-DOWNED TREE/OBJ
+ 1035 E 7TH ST
+ XS: EAST AVE
+ ERIE CITY
+ Map: 12102 Grids:,
+ Cad: 2019-0000129185`, "ERIE911:53O2  >CITIZEN ASSIST-DOWNED TREE/OBJ")
+
+	fmt.Printf("%+v", loc)
 }

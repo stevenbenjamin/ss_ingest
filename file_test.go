@@ -12,7 +12,7 @@ var hVals = make(map[string]int)
 var vVals = make(map[string]int)
 
 func TestFileParse(t *testing.T) {
-	if true {
+	if false {
 		m := make(map[string]int)
 		pth := "/Users/steven/work/simple-sense/s3/raw-alerts"
 		filepath.Walk(pth, func(path string, f os.FileInfo, err error) error {

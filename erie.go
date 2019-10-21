@@ -66,6 +66,60 @@ func parseSubject(s string) map[string]string {
 	return map[string]string{"type": t[1], "code": t2[1]}
 }
 
+// parse e.g.
+
+var addrRegex = regexp.MustCompile("(?si)Content-Disposition.*name=\"([^\"]*)\"(.*)")
+
+//return {before, after(trimmed), true if split}
+//if there is no split after will be ""
+func splitAt(base string, delimiter string) (string, string, bool) {
+	out := strings.SplitN(base, delimiter, 2)
+	if len(out) == 2 {
+		return strings.TrimSpace(out[0]), strings.TrimSpace(out[1]), true
+	}
+	return base, "", false
+
+}
+
+var cadRegex = regexp.MustCompile("(?s)Cad:\\s?(\\S*)")
+var gridsRegex = regexp.MustCompile("(?s)Grids:\\s?(\\S*)")
+var mapRegex = regexp.MustCompile("(?s)Map:\\s?(\\S*)")
+
+// ERIE911:53O2  >CITIZEN ASSIST-DOWNED TREE/OBJ
+// 1035 E 7TH ST
+// XS: EAST AVE
+// ERIE CITY
+// Map:12102 Grids:,
+// Cad: 2019-0000129185
+
+func parseLocation(s string, subject string) *Location {
+	loc := &Location{City: "Erie", State: "PA"}
+	var base string
+	//split off subject
+	if _, post, ok := splitAt(base, subject); ok {
+		base = post
+	} else {
+		base = s
+	}
+
+	if s1 := cadRegex.FindStringSubmatch(base); len(s1) > 1 {
+		loc.Cad = s1[1]
+	}
+	if s2 := gridsRegex.FindStringSubmatch(base); len(s2) > 1 {
+		loc.Grid = s2[1]
+	}
+	if s3 := mapRegex.FindStringSubmatch(base); len(s3) > 1 {
+		loc.Map = s3[1]
+		base = strings.SplitN(base, "Map:", 2)[0]
+	}
+	if preXs, postXs, ok := splitAt(base, "XS:"); ok {
+		loc.XS = postXs
+		loc.Street = preXs
+	}
+
+	return loc
+}
+
 func ProcessAlert(alert *Alert) {
 	alert.Values["from"] = stripSurroundingCarats(alert.Values["from"])
 

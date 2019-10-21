@@ -12,6 +12,18 @@ type Alert struct {
 	Headers map[string]string
 }
 
+type Location struct {
+	Street    string
+	City      string
+	State     string
+	Latitude  float32
+	Longitude float32
+	XS        string
+	Map       string
+	Cad       string
+	Grid      string
+}
+
 var (
 	//parse delimiter lines in multipart form submission:  usually ^--xYzZY but not guaranteed
 	//(delimiter is normally specified in multipart form header that we're not getting)
