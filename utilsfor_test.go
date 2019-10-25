@@ -3,10 +3,12 @@ package ss_ingest
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"path/filepath"
 	"reflect"
 	"runtime"
 	"testing"
+	"time"
 )
 
 // assert fails the test if the condition is false.
@@ -45,4 +47,9 @@ func loadTestFile(t *testing.T, name string) []byte {
 		t.Fatal(err)
 	}
 	return bytes
+}
+
+func timer(start time.Time, name string) {
+	elapsed := time.Since(start)
+	log.Printf("%s took %s", name, elapsed)
 }
