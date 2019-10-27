@@ -1,139 +1,154 @@
 package ss_ingest
 
 import (
-	"bytes"
-	"encoding/json"
+	"errors"
 	"fmt"
-	"github.com/smartystreets/smartystreets-go-sdk/us-extract-api"
-	"github.com/smartystreets/smartystreets-go-sdk/wireup"
-	//	"googlemaps.github.io/maps"
-	"log"
+	"github.com/tidwall/gjson"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	//	"os"
 )
 
-//apiKey: '11fb7c4405d847e0917e92a0f98e5e88',
-//provider: 'google',
-//	apiKey: 'AIzaSyCX-f8zkkL9thwcuataJOhW9PCikfH-sHo',
-//	formatter: 'geoJSON'
-
 var GOOGLE_API_KEY = "AIzaSyCX-f8zkkL9thwcuataJOhW9PCikfH-sHo"
-var GOOGLE_API_URL = "https: //maps.googleapis.com/maps/api/geocode/json"
+var GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 
-func GoogleVerify(address string) {
-	urlstring := fmt.Sprintf("%v?address=%v&key=%v", GOOGLE_API_KEY, url.QueryEscape(address), GOOGLE_API_KEY)
-	resp, err := http.Get(urlstring)
-	fmt.Printf("Google Response: %v, %v", resp, err)
-}
+//expected response
+// {
+//    "results" : [
+//       {
+//          "address_components" : [
+//             {
+//                "long_name" : "1035",
+//                "short_name" : "1035",
+//                "types" : [ "street_number" ]
+//             },
+//             {
+//                "long_name" : "East 7th Street",
+//                "short_name" : "E 7th St",
+//                "types" : [ "route" ]
+//             },
+//             {
+//                "long_name" : "Zone 1",
+//                "short_name" : "Zone 1",
+//                "types" : [ "neighborhood", "political" ]
+//             },
+//             {
+//                "long_name" : "Erie",
+//                "short_name" : "Erie",
+//                "types" : [ "locality", "political" ]
+//             },
+//             {
+//                "long_name" : "Erie County",
+//                "short_name" : "Erie County",
+//                "types" : [ "administrative_area_level_2", "political" ]
+//             },
+//             {
+//                "long_name" : "Pennsylvania",
+//                "short_name" : "PA",
+//                "types" : [ "administrative_area_level_1", "political" ]
+//             },
+//             {
+//                "long_name" : "United States",
+//                "short_name" : "US",
+//                "types" : [ "country", "political" ]
+//             },
+//             {colo
+//                "long_name" : "16503",
+//                "short_name" : "16503",
+//                "types" : [ "postal_code" ]
+//             },
+//             {
+//                "long_name" : "1511",
+//                "short_name" : "1511",
+//                "types" : [ "postal_code_suffix" ]
+//             }
+//          ],
+//          "formatted_address" : "1035 E 7th St, Erie, PA 16503, USA",
+//          "geometry" : {
+//             "bounds" : {
+//                "northeast" : {
+//                   "lat" : 42.13705849999999,
+//                   "lng" : -80.06083919999999
+//                },
+//                "southwest" : {
+//                   "lat" : 42.1369383,
+//                   "lng" : -80.0609764
+//                }
+//             },
+//             "location" : {
+//                "lat" : 42.1369958,
+//                "lng" : -80.060903
+//             },
+//             "location_type" : "ROOFTOP",
+//             "viewport" : {
+//                "northeast" : {
+//                   "lat" : 42.1383473802915,
+//                   "lng" : -80.05955881970849
+//                },
+//                "southwest" : {
+//                   "lat" : 42.1356494197085,
+//                   "lng" : -80.06225678029149
+//                }
+//             }
+//          },
+//          "place_id" : "ChIJYUi-psl_LYgRmQwdoqhtJLI",
+//          "types" : [ "premise" ]
+//       }
+//    ],
+//    "status" : "OK"
+// }
 
-var SMARTY_AUTH_ID = "9ca18209-f049-897b-f53a-93d1b0989258"
-var SMARTY_AUTH_TOKEN = "tOZNMbi9p7HhGrdzQ2v7"
+func parseGoogleLocation(raw []byte) (*Location, error) {
+	loc := new(Location)
+	// "OK" indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
+	// "ZERO_RESULTS" indicates that the geocode was successful but returned no results. This may occur if the geocoder was passed a non-existent address.
+	// OVER_DAILY_LIMIT billing error
+	// "OVER_QUERY_LIMIT" indicates that you are over your quota.
+	// "REQUEST_DENIED" indicates that your request was denied.
+	// "INVALID_REQUEST" generally indicates that the query (address, components or latlng) is missing.
+	// "UNKNOWN_ERROR"
+	status := gjson.GetBytes(raw, "status").Str
+	if status != "OK" {
+		return loc, errors.New(fmt.Sprintf("Google geocoding error:%v", status))
+	}
 
-func SmartyVerify(address string) {
+	//friends.#(nets.#(=="fb"))#.first
 
-	log.SetFlags(log.Ltime | log.Llongfile)
-
-	client := wireup.BuildUSExtractAPIClient(
-		wireup.SecretKeyCredential("SMARTY_AUTH_ID", "SMARTY_AUTH_TOKEN"),
-		//wireup.DebugHTTPOutput(), // uncomment this line to see detailed HTTP request/response information.
+	vars := gjson.GetManyBytes(raw,
+		"results.0.geometry.location.lat",
+		"results.0.geometry.location.lng",
+		"results.0.formatted_address",
+		`results.0.address_components.#(types.#(=="street_number")).long_name`,
+		`results.0.address_components.#(types.#(=="route")).long_name`,
+		`results.0.address_components.#(types.#(=="locality")).long_name`,
+		`results.0.address_components.#(types.#(=="administrative_area_level_1")).long_name`,
+		`results.0.address_components.#(types.#(=="postal_code")).long_name`,
 	)
-	lookup := &extract.Lookup{
-		Text:                    address,
-		Aggressive:              false,
-		AddressesWithLineBreaks: true,
-		AddressesPerLine:        1,
-	}
 
-	if err := client.SendLookup(lookup); err != nil {
-		fmt.Printf("Error sending batch:%v", err)
-	} else {
-		fmt.Printf("SmartyReturned %v", DumpJSON(lookup))
-	}
+	loc.Latitude = vars[0].Num
+	loc.Longitude = vars[1].Num
+	loc.FormattedAddress = vars[2].Str
+	loc.Street = fmt.Sprintf("%v %v", vars[3].Str, vars[4].Str)
+	loc.City = vars[5].Str  //city.Str
+	loc.State = vars[6].Str //state.Str
+	loc.Zip = vars[7].Str   //zip.Str
+	return loc, nil
 }
 
-func DumpJSON(v interface{}) string {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err.Error()
+func GoogleVerify(address string) (*Location, error) {
+	urlstring := fmt.Sprintf("%v?address=%v&key=%v", GOOGLE_API_URL, url.QueryEscape(address), GOOGLE_API_KEY)
+	if resp, err := http.Get(urlstring); err == nil {
+		if bytes, e2 := parseResponse(resp); e2 == nil {
+			return parseGoogleLocation(bytes)
+
+		} else {
+			return nil, e2
+		}
 	}
-
-	var indent bytes.Buffer
-
-	err = json.Indent(&indent, b, "", "  ")
-
-	if err != nil {
-		return err.Error()
-	}
-
-	return indent.String()
+	return nil, nil
 }
 
-// //Find Address in string
-// findAddress: async function(address){
-// 	let lookup = new Lookup(address);
-// 	lookup.agressive = true;
-// 	lookup.addressesHaveLineBreaks = true;
-// 	lookupAddressesPerLine = 1;
-
-// 	await smartyClient.send(lookup).then( async function(response) {
-// 		var returnAddress = response.result.addresses[0].candidates[0].deliveryLine1
-// 		console.log("Smarty Response", returnAddress);
-// 		return(returnAddress);
-// 	}).catch(console.log);
-// },
-
-// verifyAddress: async function(address, returnAddress){
-// 	let lookup = new Lookup(address);
-// 	lookup.agressive = true;
-// 	lookup.addressesHaveLineBreaks = true;
-// 	lookupAddressesPerLine = 1;
-
-// 	await smartyClient.send(lookup).then( async function(response) {
-// 		returnAddress.a = response.result.addresses[0].candidates[0].deliveryLine1
-// 		console.log("Smarty Response", returnAddress);
-// 		return(returnAddress.a);
-// 	}).catch(console.log);
-// },
-
-// //Geolocation Services
-// //Google api key
-// // AIzaSyB7I2VrZ6tukrlhc_VBYoO2rVXDiZoffPQ
-// var geoOptions = {
-// 	//provider: 'opencage',
-// 	//apiKey: '11fb7c4405d847e0917e92a0f98e5e88',
-// 	provider: 'google',
-// 	apiKey: 'AIzaSyCX-f8zkkL9thwcuataJOhW9PCikfH-sHo',
-// 	formatter: 'geoJSON'
-// };
-
-// var geocoder = NodeGeocoder(geoOptions);
-
-// 	geocoder.geocode(address)
-// 			.then(function(loc) {
-// 				var index = 0;
-// 				var bestResult = 0;
-// 				var bestIndex = 0;
-// 				for(var result in loc) {
-// 					// console.log(result);
-// 					// console.log(loc[result]);
-// 					if(loc[result].extra.confidence > bestResult){
-// 						bestResult = loc[result].extra.confidence;
-// 						bestIndex = index;
-// 					}
-// 					index++;
-// 				}
-// 			var latitude = parseFloat(loc[bestIndex].latitude);
-// 				var longitude = parseFloat(loc[bestIndex].longitude);
-// 				var range = parseFloat(loc[bestIndex].extra.confidenceKM)
-
-// 				User.find(
-// 				{
-// 					location: {
-// 						$geoIntersects: {
-// 							$geometry: {
-// 								type: "Point",
-// 								coordinates: [longitude, latitude]
-// 							}
-// 						}
-// 					}
+func parseResponse(resp *http.Response) ([]byte, error) {
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
+}

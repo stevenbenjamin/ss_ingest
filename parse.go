@@ -13,15 +13,17 @@ type Alert struct {
 }
 
 type Location struct {
-	Street    string
-	City      string
-	State     string
-	Latitude  float32
-	Longitude float32
-	XS        string
-	Map       string
-	Cad       string
-	Grid      string
+	Street           string
+	City             string
+	State            string
+	Zip              string
+	FormattedAddress string
+	Latitude         float64
+	Longitude        float64
+	XS               string
+	Map              string
+	Cad              string
+	Grid             string
 }
 
 var (
