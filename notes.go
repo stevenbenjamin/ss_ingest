@@ -7,14 +7,14 @@ import (
 //Geolocation Services
 var geoOptions = map[string]string{
 	"provider":  "google",
-	"apiKey":    "AIzaSyCX-f8zkkL9thwcuataJOhW9PCikfH-sHo",
+	"apiKey":    "API_KEY",
 	"formatter": "geoJSON"}
 
-var sendGridApiKey = "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"
+var sendGridApiKey = "SENDGRID_API_KEY"
 
 var twilioOptions = map[string]string{
-	"accountSid": "AC4d7fc8d3775c2e6b5af084c03fd4acd9",
-	"authToken":  "90797b4e54094d0bdfb0a7457766a20c"}
+	"accountSid": "...",
+	"authToken":  "..."}
 
 // 	var subject = req.body.subject;
 // 	var text = req.body.text;
